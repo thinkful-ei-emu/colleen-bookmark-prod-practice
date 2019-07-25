@@ -1,35 +1,14 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
+import EditBookmark from './EditBookmark/editbookmark'
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
 
-const bookmarks = [
-  // {
-  //   id: 0,
-  //   title: 'Google',
-  //   url: 'http://www.google.com',
-  //   rating: '3',
-  //   desc: 'Internet-related services and products.'
-  // },
-  // {
-  //   id: 1,
-  //   title: 'Thinkful',
-  //   url: 'http://www.thinkful.com',
-  //   rating: '5',
-  //   desc: '1-on-1 learning to accelerate your way to a new high-growth tech career!'
-  // },
-  // {
-  //   id: 2,
-  //   title: 'Github',
-  //   url: 'http://www.github.com',
-  //   rating: '4',
-  //   desc: 'brings together the world\'s largest community of developers.'
-  // }
-];
+
 
 class App extends Component {
   state = {
@@ -56,12 +35,20 @@ class App extends Component {
     this.setState({bookmarks: newBookmarks
     })
   }
+
+  editBookmark = bookmarkEdited => {
+    const newBookmarks = this.state.bookmarks.map(bm=> bm.id === bookmarkEdited.id 
+      ? bookmarkEdited : bm )
+    this.setState({
+      bookmarks: newBookmarks
+    })
+  }
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
-        'Authorization': `Bearer ${config.API_KEY}`
+       'Authorization': `Bearer ${config.API_KEY}`
       }
     })
       .then(res => {
@@ -78,7 +65,8 @@ class App extends Component {
     const contextValue = {
       bookmarks : this.state.bookmarks,
       addBookmark : this.addBookmark,
-      deleteBookmark: this.deleteBookmark
+      deleteBookmark: this.deleteBookmark,
+      editBookmark: this.editBookmark
     }
     return (
       <main className='App'>
@@ -87,7 +75,7 @@ class App extends Component {
         <Nav />
         <div className='content' aria-live='polite'>
           <Route
-            path='/add-bookmark'
+            path='/add'
             component={AddBookmark}
           />
           <Route
@@ -95,6 +83,10 @@ class App extends Component {
             path='/'
             component={BookmarkList}
           />
+          <Route
+            path='/edit/:id'
+            component={EditBookmark}
+            />
         </div>
         </BookmarksContext.Provider>
       </main>

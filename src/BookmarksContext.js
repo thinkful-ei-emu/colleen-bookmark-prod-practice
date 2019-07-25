@@ -4,7 +4,8 @@ const BookmarksContext = React.createContext(
   {
     bookmarks: [],
     addBookmark: ()=>{},
-    deleteBookmark: ()=>{}
+    deleteBookmark: ()=>{},
+    updateBookmark: ()=>{},
   }
 )
 

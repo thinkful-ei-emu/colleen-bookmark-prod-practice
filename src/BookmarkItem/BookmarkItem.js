@@ -3,7 +3,8 @@ import Rating from '../Rating/Rating';
 import BookmarksContext from '../BookmarksContext';
 import config from '../config';
 import './BookmarkItem.css';
-import propTypes from 'prop-types'
+import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function deleteBookmarkRequest(bookmarkId, cb) {
   fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
@@ -15,17 +16,17 @@ function deleteBookmarkRequest(bookmarkId, cb) {
     .then(res => {
       if (!res.ok) {
         // get the error message from the response,
-        return res.json().then(error => {
+        return res.then(error => {
           // then throw it
           throw error
         })
       }
-      return res.json()
+      return res
     })
     .then(data => {
       // call the callback when the request is successful
       // this is where the App component can remove it from state
-      cb(bookmarkId)
+       cb(bookmarkId)
     })
     .catch(error => {
       console.error(error)
@@ -66,6 +67,9 @@ export default function BookmarkItem(props) {
         >
           Delete
         </button>
+        <Link to={`/edit/${props.id}`}>
+        <button className='BookmarkItem__description'>Edit Bookmark</button>
+        </Link>
       </div>
     </li>
   )}
