@@ -66,7 +66,8 @@ class App extends Component {
       bookmarks : this.state.bookmarks,
       addBookmark : this.addBookmark,
       deleteBookmark: this.deleteBookmark,
-      editBookmark: this.editBookmark
+      editBookmark: this.editBookmark,
+      setBookmarks: this.setBookmarks
     }
     return (
       <main className='App'>

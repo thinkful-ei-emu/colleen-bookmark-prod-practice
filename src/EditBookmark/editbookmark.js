@@ -60,6 +60,12 @@ class EditBookmark extends React.Component {
     })
   }
 
+  handleRatingChange = rating => {
+    this.setState({
+      rating: rating
+    })
+  }
+
   handleSubmit = e => {
       e.preventDefault()
       fetch(`${config.API_ENDPOINT}/${this.state.id}`, {
@@ -75,6 +81,9 @@ class EditBookmark extends React.Component {
       .then(
         this.props.history.push('/')
       )
+  }
+  handleClickCancel = () => {
+    this.props.history.push('/')
   }
   render(){
     const { error } = this.state
@@ -145,7 +154,7 @@ class EditBookmark extends React.Component {
               id='rating'
               value={rating}
               placeholder={this.state.rating}
-              onChange={this.handleRatingChange}
+              onChange={e=>this.handleRatingChange(e.target.value)}
               min='1'
               max='5'
               

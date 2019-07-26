@@ -34,6 +34,7 @@ class AddBookmark extends Component {
       }
     })
       .then(res => {
+        console.log(res)
         if (!res.ok) {
           // get the error message from the response,
           return res.json().then(error => {
@@ -43,13 +44,15 @@ class AddBookmark extends Component {
         }
         return res.json()
       })
-      .then(data => {
+      .then(bookmark => {
+        console.log(bookmark.bookmark)
+        this.context.addBookmark(bookmark.bookmark)
+        this.props.history.push('/')
         title.value = ''
         url.value = ''
         description.value = ''
         rating.value = ''
-        this.context.addBookmark(data)
-        this.props.history.push('/')
+        
       })
       .catch(error => {
         this.setState({ error })
